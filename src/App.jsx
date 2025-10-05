@@ -14,7 +14,7 @@ import DetailPage from './pages/DetailPage';
 import PopularPage from './pages/PopularPage';
 import SubmitPage from './pages/SubmitPage';
 import AdminPage from './pages/AdminPage'
-import SubmissionsPage from './pages/SubmissionsPage'
+import SubmissionsPage from './pages/SubmissionsPage';
 
 // Components
 import Header from './components/Header';
