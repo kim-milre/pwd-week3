@@ -127,21 +127,30 @@ function SubmitRestaurant() {
   try {
     const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/restaurants`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Cache-Control": "no-store", // 캐시 방지 헤더 추가
+      },
       body: JSON.stringify(data),
     });
 
     if (response.ok) {
-      setSubmitted(true);
       toast.success('맛집이 성공적으로 제보되었습니다! 🎉');
       reset();
+      setSubmitted(true);
+
+      // 리스트 리프레시 콜백이 있다면 실행 (부모로부터 prop 전달받는 방식)
+      if (typeof onSubmitted === 'function') {
+        onSubmitted();
+      }
+
       setTimeout(() => setSubmitted(false), 5000);
     } else {
       toast.error('제보 실패: 서버 오류');
     }
   } catch (error) {
-    toast.error('제출 중 오류가 발생했습니다.');
     console.error(error);
+    toast.error('제출 중 오류가 발생했습니다.');
   }
 };
 
