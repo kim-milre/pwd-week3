@@ -125,11 +125,9 @@ function SubmitRestaurant() {
 
   const onSubmit = async (data) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/restaurants`, {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/restaurants`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
 
@@ -139,11 +137,11 @@ function SubmitRestaurant() {
       reset();
       setTimeout(() => setSubmitted(false), 5000);
     } else {
-      toast.error('서버에서 오류가 발생했습니다.');
+      toast.error('제보 실패: 서버 오류');
     }
   } catch (error) {
-    console.error(error);
     toast.error('제출 중 오류가 발생했습니다.');
+    console.error(error);
   }
 };
 
