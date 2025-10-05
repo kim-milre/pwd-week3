@@ -124,23 +124,24 @@ function SubmitRestaurant() {
   const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm();
 
   const onSubmit = async (data) => {
-  const restaurantData = {
-    id: Date.now(),
-    name: data.restaurantName,
+  const submissionData = {
+    restaurantName: data.restaurantName,
     category: data.category,
     location: data.location,
-    priceRange: data.priceRange || '정보 없음',
-    description: data.review || '',
+    priceRange: data.priceRange || '',
     recommendedMenu: data.recommendedMenu
       ? data.recommendedMenu.split(',').map((item) => item.trim())
       : [],
+    review: data.review || '',
+    submitterName: data.submitterName || '',
+    submitterEmail: data.submitterEmail || '',
   };
 
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/restaurants`, {
+    const response = await fetch(`${VITE_API_BASE_URL}/api/submissions`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(restaurantData),
+      body: JSON.stringify(submissionData),
     });
 
     if (response.ok) {
