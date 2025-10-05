@@ -120,43 +120,48 @@ const SuccessMessage = styled.div`
 `;
 
 function SubmitRestaurant() {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+  console.log('🔥 API BASE URL:', API_BASE_URL);
+
   const [submitted, setSubmitted] = useState(false);
   const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm();
 
   const onSubmit = async (data) => {
-  const submissionData = {
-    restaurantName: data.restaurantName,
-    category: data.category,
-    location: data.location,
-    priceRange: data.priceRange || '',
-    recommendedMenu: data.recommendedMenu
-      ? data.recommendedMenu.split(',').map((item) => item.trim())
-      : [],
-    review: data.review || '',
-    submitterName: data.submitterName || '',
-    submitterEmail: data.submitterEmail || '',
-  };
+    const submissionData = {
+      restaurantName: data.restaurantName,
+      category: data.category,
+      location: data.location,
+      priceRange: data.priceRange || '',
+      recommendedMenu: data.recommendedMenu
+        ? data.recommendedMenu.split(',').map((item) => item.trim())
+        : [],
+      review: data.review || '',
+      submitterName: data.submitterName || '',
+      submitterEmail: data.submitterEmail || '',
+      status: 'pending',
+    };
 
-  try {
-    const response = await fetch(`${VITE_API_BASE_URL}/api/submissions`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(submissionData),
-    });
+try {
+      const response = await fetch(`${API_BASE_URL}/api/submissions`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(submissionData),
+      });
 
-    if (response.ok) {
-      setSubmitted(true);
-      toast.success('맛집이 성공적으로 제보되었습니다! 🎉');
-      reset();
-      setTimeout(() => setSubmitted(false), 5000);
-    } else {
-      toast.error('제보 실패: 서버 오류');
+      if (response.ok) {
+        setSubmitted(true);
+        toast.success('맛집이 성공적으로 제보되었습니다! 🎉');
+        reset();
+        setTimeout(() => setSubmitted(false), 5000);
+      } else {
+        const errData = await response.json();
+        toast.error(`제보 실패: ${errData?.error?.message || '서버 오류'}`);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('제출 중 오류가 발생했습니다.');
     }
-  } catch (error) {
-    toast.error('제출 중 오류가 발생했습니다.');
-    console.error(error);
-  }
-};
+  };
 
   if (submitted) {
     return (
