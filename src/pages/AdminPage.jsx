@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { toast } from 'react-toastify';
 
 function AdminPage() {
@@ -51,22 +49,30 @@ function AdminPage() {
       ) : (
         <div className="space-y-4">
           {submissions.map((s) => (
-            <Card key={s.id}>
-              <CardContent className="p-4">
-                <h2 className="text-lg font-semibold">{s.restaurantName}</h2>
-                <p className="text-sm text-gray-600">{s.category} | {s.location}</p>
-                {s.recommendedMenu?.length > 0 && (
-                  <p className="text-sm mt-1">추천 메뉴: {s.recommendedMenu.join(', ')}</p>
-                )}
-                {s.review && (
-                  <p className="text-sm mt-1 italic">"{s.review}"</p>
-                )}
-                <div className="mt-4 flex gap-2">
-                  <Button onClick={() => approve(s.id)} variant="default">승인</Button>
-                  <Button onClick={() => reject(s.id)} variant="destructive">삭제</Button>
-                </div>
-              </CardContent>
-            </Card>
+            <div key={s.id} className="border rounded-xl p-4 shadow-sm bg-white">
+              <h2 className="text-lg font-semibold">{s.restaurantName}</h2>
+              <p className="text-sm text-gray-600">{s.category} | {s.location}</p>
+              {s.recommendedMenu?.length > 0 && (
+                <p className="text-sm mt-1">추천 메뉴: {s.recommendedMenu.join(', ')}</p>
+              )}
+              {s.review && (
+                <p className="text-sm mt-1 italic">"{s.review}"</p>
+              )}
+              <div className="mt-4 flex gap-2">
+                <button
+                  onClick={() => approve(s.id)}
+                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                >
+                  승인
+                </button>
+                <button
+                  onClick={() => reject(s.id)}
+                  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                >
+                  삭제
+                </button>
+              </div>
+            </div>
           ))}
         </div>
       )}
