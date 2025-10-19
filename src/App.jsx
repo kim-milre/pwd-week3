@@ -15,6 +15,9 @@ import PopularPage from './pages/PopularPage';
 import SubmitPage from './pages/SubmitPage';
 import AdminPage from './pages/AdminPage'
 import SubmissionsPage from './pages/SubmissionsPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import ProfilePage from './pages/ProfilePage';
 
 // Components
 import Header from './components/Header';
@@ -49,6 +52,10 @@ function App() {
               <Route path="/submit" element={<SubmitPage />} />
               <Route path="/admin" element={<AdminPage />} />
               <Route path="/submissions" element={<SubmissionsPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
